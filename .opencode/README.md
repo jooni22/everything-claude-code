@@ -50,7 +50,7 @@ opencode
 
 ## Features
 
-### Agents (12)
+### Agents (13)
 
 | Agent | Description |
 |-------|-------------|
@@ -65,9 +65,10 @@ opencode
 | refactor-cleaner | Dead code cleanup |
 | go-reviewer | Go code review |
 | go-build-resolver | Go build errors |
+| python-reviewer | Python code review |
 | database-reviewer | Database optimization |
 
-### Commands (24)
+### Commands (25)
 
 | Command | Description |
 |---------|-------------|
@@ -90,6 +91,7 @@ opencode
 | `/go-review` | Go code review |
 | `/go-test` | Go TDD |
 | `/go-build` | Go build fix |
+| `/python-review` | Python code review |
 | `/skill-create` | Generate skills |
 | `/instinct-status` | View instincts |
 | `/instinct-import` | Import instincts |
@@ -107,6 +109,14 @@ opencode
 | console.log | `file.edited` | Warn about debug statements |
 | Notification | `session.idle` | Desktop notification |
 | Security | `tool.execute.before` | Check for secrets |
+
+### Verification in OpenCode
+
+1. **Startup signal**: run `opencode` in this repo; the log should show `[ECC] Session started - Everything Claude Code hooks active` from the `session.created` hook.
+2. **Agents**: run `/plan "Add login flow"` to confirm the planner responds, then `/python-review` to exercise the Python reviewer and see ruff/mypy/black checks mentioned in the reply.
+3. **Commands and tools**: run `/build-fix "tsc --noEmit"` or `/e2e "smoke test checkout"` to confirm command templates render; use the OpenCode tool picker to run `run-tests` or `check-coverage` and verify output streams to the console.
+4. **Hooks**: edit a `.ts` file; after the edit completes you should see `[ECC] Formatted:` for the path and, if `tsc` is available, either `[ECC] TypeScript check passed` or a short error list. Editing files with `console.log` should emit a warning.
+5. **MCP**: copy entries from `mcp-configs/mcp-servers.json` into your user `opencode.json`, restart `opencode`, and confirm the MCP panel lists servers like `github`, `firecrawl`, and `supabase` before invoking them.
 
 ### Custom Tools
 
