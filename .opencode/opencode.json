@@ -166,6 +166,18 @@
         "bash": true
       }
     },
+    "python-reviewer": {
+      "description": "Expert Python code reviewer specializing in PEP 8 compliance, type hints, security, and performance.",
+      "mode": "subagent",
+      "model": "anthropic/claude-opus-4-5",
+      "prompt": "{file:.opencode/prompts/agents/python-reviewer.txt}",
+      "tools": {
+        "read": true,
+        "bash": true,
+        "write": false,
+        "edit": false
+      }
+    },
     "database-reviewer": {
       "description": "PostgreSQL database specialist for query optimization, schema design, security, and performance. Incorporates Supabase best practices.",
       "mode": "subagent",
@@ -282,6 +294,12 @@
       "description": "Fix Go build errors",
       "template": "{file:.opencode/commands/go-build.md}\n\n$ARGUMENTS",
       "agent": "go-build-resolver",
+      "subtask": true
+    },
+    "python-review": {
+      "description": "Python code review for PEP 8 compliance, type hints, security, and Pythonic idioms",
+      "template": "{file:.opencode/commands/python-review.md}\n\n$ARGUMENTS",
+      "agent": "python-reviewer",
       "subtask": true
     },
     "skill-create": {
